@@ -40,7 +40,24 @@ good practice). Fetched via `scripts/fetch-images.mjs`.
 - `public/images/atelier-2.jpg` — Photo by Alexander Kjær Grote on Unsplash — https://unsplash.com/photos/a-dark-room-with-a-lamp-and-a-coffee-maker-ZpgyRflcLX4
 - `public/images/atelier-3.jpg` — Photo by Charles Postiaux on Unsplash — https://unsplash.com/photos/an-espresso-machine-sitting-on-top-of-a-counter-kLfAST5nqjM
 - `public/images/origin-ethiopia.jpg` — Photo by PROJETO CAFÉ GATO-MOURISCO on Unsplash — https://unsplash.com/photos/coffee-berries-growing-on-a-leafy-branch-w2_RA1-3NaU
-- `public/images/origin-colombia.jpg` — Photo by Nguyen Tong Hai Van on Unsplash — https://unsplash.com/photos/red-and-brown-round-fruits-in-white-plastic-bucket-b8xo59IcAUY
+- `public/images/origin-colombia.jpg` — Photo by Candes J on Unsplash — https://unsplash.com/photos/farmer-holding-bucket-of-ripe-coffee-cherries-we5u09a0AxA
 - `public/images/origin-sumatra.jpg` — Photo by LIVESTART STIVEN on Unsplash — https://unsplash.com/photos/hands-picking-ripe-red-coffee-cherries-from-branches-aXLk1YTaxNM
+
+Note on `origin-ethiopia.jpg` and `origin-sumatra.jpg`: real coffee-farm
+photography is inherently outdoor/daylight, and after two rounds of
+sourcing, no available Unsplash photo of genuine coffee cultivation for
+these two regions fully clears the dark/warm grade standalone (ethiopia
+is a saturated-green branch macro with only small warm cherry accents;
+sumatra has a strong warm cast on skin/cherries but a bright soft-green
+bokeh background with no black/near-black anchor). Both were kept —
+thematically accurate, real coffee cherries/harvest visible — with the
+grading gap intentionally deferred to a CSS darkening/warming treatment
+when placed into page components (e.g. `brightness-75 contrast-110
+sepia-[.12]` or a dark gradient overlay), per the design spec's allowance
+(`docs/superpowers/specs/2026-08-06-noir-design.md` §9: "graded
+consistently toward the video's palette via CSS filters where needed").
+`origin-colombia.jpg` was replaced in this round for a cool-blue-clashing
+plaid shirt; its replacement is warmer-neutral but still fairly bright,
+so it is a secondary candidate for the same CSS treatment if needed.
 
 Downloaded: 2026-08-07

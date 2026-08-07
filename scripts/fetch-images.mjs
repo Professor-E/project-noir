@@ -93,6 +93,14 @@ const IMAGES = [
   // dark backgrounds) that both show genuine coffee cultivation and hold
   // the noir grade better than any wide daylight vista available. See the
   // fix-round report for the CSS-darkening-filter fallback note.
+  //
+  // Fix round 2 (2026-08-06): origin-colombia replaced again — the round-1
+  // pick still had a cool-blue plaid shirt clashing with the warm grade and
+  // a large pale basket. origin-ethiopia and origin-sumatra kept as-is
+  // (still thematically strong, no clearly better dark/warm alternative
+  // found after a bounded search) — both flagged for a CSS darkening/warming
+  // treatment when placed into page components; see docs/credits.md and the
+  // fix-round-2 report section.
   {
     file: 'origin-ethiopia.jpg',
     url: 'https://images.unsplash.com/photo-1746367805612-bc46ff00bf9a?w=1800&q=80&fm=jpg',
@@ -100,8 +108,8 @@ const IMAGES = [
   },
   {
     file: 'origin-colombia.jpg',
-    url: 'https://images.unsplash.com/photo-1629008642899-178df6fc5f2f?w=1800&q=80&fm=jpg',
-    credit: 'Photo by Nguyen Tong Hai Van on Unsplash — https://unsplash.com/photos/red-and-brown-round-fruits-in-white-plastic-bucket-b8xo59IcAUY',
+    url: 'https://images.unsplash.com/photo-1772228616071-aa344913b93e?w=1800&q=80&fm=jpg',
+    credit: 'Photo by Candes J on Unsplash — https://unsplash.com/photos/farmer-holding-bucket-of-ripe-coffee-cherries-we5u09a0AxA',
   },
   {
     file: 'origin-sumatra.jpg',
@@ -132,6 +140,23 @@ function writeCredits() {
     'good practice). Fetched via `scripts/fetch-images.mjs`.',
     '',
     ...IMAGES.map((img) => `- \`public/images/${img.file}\` — ${img.credit}`),
+    '',
+    'Note on `origin-ethiopia.jpg` and `origin-sumatra.jpg`: real coffee-farm',
+    'photography is inherently outdoor/daylight, and after two rounds of',
+    'sourcing, no available Unsplash photo of genuine coffee cultivation for',
+    'these two regions fully clears the dark/warm grade standalone (ethiopia',
+    'is a saturated-green branch macro with only small warm cherry accents;',
+    'sumatra has a strong warm cast on skin/cherries but a bright soft-green',
+    'bokeh background with no black/near-black anchor). Both were kept —',
+    'thematically accurate, real coffee cherries/harvest visible — with the',
+    'grading gap intentionally deferred to a CSS darkening/warming treatment',
+    'when placed into page components (e.g. `brightness-75 contrast-110',
+    "sepia-[.12]` or a dark gradient overlay), per the design spec's allowance",
+    '(`docs/superpowers/specs/2026-08-06-noir-design.md` §9: "graded',
+    'consistently toward the video\'s palette via CSS filters where needed").',
+    '`origin-colombia.jpg` was replaced in this round for a cool-blue-clashing',
+    'plaid shirt; its replacement is warmer-neutral but still fairly bright,',
+    'so it is a secondary candidate for the same CSS treatment if needed.',
     '',
     `Downloaded: ${new Date().toISOString().slice(0, 10)}`,
     '',
