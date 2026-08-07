@@ -2,43 +2,14 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
 import Reveal from '@/components/scroll/Reveal'
-import { DUR, EASE, prefersReducedMotion, stagger } from '@/lib/motion'
-
-const MAGNET_RADIUS = 120
-const MAGNET_STRENGTH = 0.3
+import { DUR, stagger } from '@/lib/motion'
+import { useMagnetic } from '@/lib/use-magnetic'
 
 export default function ClosingCTA() {
-  const buttonRef = useRef<HTMLAnchorElement>(null)
-
-  useEffect(() => {
-    const button = buttonRef.current
-    if (!button) return
-    // Magnetism is a pointer affordance: off for coarse pointers and off when
-    // the visitor has asked for reduced motion.
-    const fine = window.matchMedia('(pointer: fine)').matches
-    if (!fine || prefersReducedMotion()) return
-
-    const xTo = gsap.quickTo(button, 'x', { duration: DUR.fast, ease: EASE.power })
-    const yTo = gsap.quickTo(button, 'y', { duration: DUR.fast, ease: EASE.power })
-
-    const move = (e: PointerEvent) => {
-      const rect = button.getBoundingClientRect()
-      const dx = e.clientX - (rect.left + rect.width / 2)
-      const dy = e.clientY - (rect.top + rect.height / 2)
-      const inRange = Math.hypot(dx, dy) < MAGNET_RADIUS
-      xTo(inRange ? dx * MAGNET_STRENGTH : 0)
-      yTo(inRange ? dy * MAGNET_STRENGTH : 0)
-    }
-
-    window.addEventListener('pointermove', move)
-    return () => {
-      window.removeEventListener('pointermove', move)
-      gsap.set(button, { x: 0, y: 0 })
-    }
-  }, [])
+  // Extracted to a shared hook in Task 10 so AddToCart's primary button behaves
+  // identically to this one.
+  const buttonRef = useMagnetic<HTMLAnchorElement>()
 
   return (
     <section

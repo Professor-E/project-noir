@@ -4,8 +4,9 @@ import { stagger } from '@/lib/motion'
 import { PRODUCTS } from '@/lib/products'
 
 // Column rhythm: the middle column rides up and the right column drops, so the
-// six cards read as a hung grid rather than three ruled rows.
-function columnOffset(index: number): string {
+// six cards read as a hung grid rather than three ruled rows. Exported so the
+// shop index hangs its grid on exactly the same rhythm.
+export function columnOffset(index: number): string {
   const column = index % 3
   if (column === 1) return 'md:-mt-12'
   if (column === 2) return 'md:mt-24'
