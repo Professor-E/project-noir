@@ -41,8 +41,16 @@ function Segmented<T extends string>({
   const pillRef = useRef<HTMLSpanElement>(null)
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
   const settledRef = useRef(false)
+  // Holds the latest `place` closure so the long-lived ResizeObserver below
+  // (mount-only, empty deps) can always call an up-to-date placement without
+  // `place` itself needing to be a dependency of that effect.
+  const placeRef = useRef<() => void>(() => {})
   const index = options.indexOf(value)
 
+  // Animates/positions the pill whenever the active option changes. Deliberately
+  // does NOT own the ResizeObserver: recreating the observer here would make it
+  // fire its spurious "first observation" callback on every option change,
+  // snapping the pill via gsap.set mid-tween and killing the slide.
   useEffect(() => {
     const wrap = wrapRef.current
     const pill = pillRef.current
@@ -69,14 +77,26 @@ function Segmented<T extends string>({
       gsap.to(pill, { ...box, duration: DUR.fast, ease: EASE.power, overwrite: 'auto' })
     }
 
+    placeRef.current = place
     place()
+  }, [index, reduced])
+
+  // Owns the ResizeObserver for the component's whole lifetime, so it only ever
+  // delivers its one spurious "just started observing" callback once (on mount)
+  // instead of once per option change. Genuine layout changes (e.g. the grind
+  // row wrapping from one row to two on viewport resize) still reposition the
+  // pill instantly via place()'s gsap.set branch.
+  useEffect(() => {
+    const wrap = wrapRef.current
+    if (!wrap) return
+
     const observer = new ResizeObserver(() => {
       settledRef.current = false
-      place()
+      placeRef.current()
     })
     observer.observe(wrap)
     return () => observer.disconnect()
-  }, [index, reduced])
+  }, [])
 
   return (
     <div>
