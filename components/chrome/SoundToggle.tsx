@@ -22,7 +22,11 @@ export default function SoundToggle() {
 
     if (!playing) {
       gsap.killTweensOf(bars)
-      gsap.to(bars, { scaleY: 0.35, duration: DUR.fast, ease: EASE.smooth })
+      gsap.to(bars, {
+        scaleY: 0.35,
+        duration: prefersReducedMotion() ? 0 : DUR.fast,
+        ease: EASE.smooth,
+      })
       return
     }
 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { DUR, EASE, stagger } from '@/lib/motion'
+import { DUR, EASE, prefersReducedMotion, stagger } from '@/lib/motion'
 
 const LINKS = [
   { href: '/', label: 'Home' },
@@ -11,9 +11,14 @@ const LINKS = [
   { href: '/contact', label: 'Contact' },
 ]
 
-const linkTransition = {
-  transitionDuration: `${DUR.fast}s`,
-  transitionTimingFunction: EASE.smooth,
+// Reduced motion collapses every transition/delay to 0s instead of skipping
+// the transition classes entirely, so state (scrolled, menuOpen, hover)
+// still updates instantly and correctly — just without animating.
+function transitionStyle(reduced: boolean) {
+  return {
+    transitionDuration: reduced ? '0s' : `${DUR.fast}s`,
+    transitionTimingFunction: EASE.smooth,
+  }
 }
 
 function NavLink({
@@ -21,11 +26,13 @@ function NavLink({
   label,
   onClick,
   large,
+  reduced,
 }: {
   href: string
   label: string
   onClick?: () => void
   large?: boolean
+  reduced: boolean
 }) {
   return (
     <Link
@@ -40,7 +47,7 @@ function NavLink({
       <span
         aria-hidden
         className="absolute inset-x-0 -bottom-0.5 h-px w-0 bg-crema transition-[width] group-hover:w-full"
-        style={linkTransition}
+        style={transitionStyle(reduced)}
       />
     </Link>
   )
@@ -49,6 +56,14 @@ function NavLink({
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [reduced, setReduced] = useState(false)
+
+  useEffect(() => {
+    // One-time client-only capability check (media query); no value to read
+    // this from during render, so an effect is correct here.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setReduced(prefersReducedMotion())
+  }, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80)
@@ -74,7 +89,7 @@ export default function Nav() {
             ? 'border-bone/10 bg-void/70 backdrop-blur-md'
             : 'border-transparent bg-transparent'
         }`}
-        style={linkTransition}
+        style={transitionStyle(reduced)}
       >
         <Link href="/" data-cursor className="display justify-self-start text-xl">
           NOIR
@@ -84,7 +99,7 @@ export default function Nav() {
           <ul className="flex items-center gap-10">
             {LINKS.map((link) => (
               <li key={link.href}>
-                <NavLink {...link} />
+                <NavLink {...link} reduced={reduced} />
               </li>
             ))}
           </ul>
@@ -114,14 +129,14 @@ export default function Nav() {
             <span
               className="h-px w-5 bg-bone transition-transform"
               style={{
-                ...linkTransition,
+                ...transitionStyle(reduced),
                 transform: menuOpen ? 'translateY(3.5px) rotate(45deg)' : 'none',
               }}
             />
             <span
               className="h-px w-5 bg-bone transition-transform"
               style={{
-                ...linkTransition,
+                ...transitionStyle(reduced),
                 transform: menuOpen ? 'translateY(-3.5px) rotate(-45deg)' : 'none',
               }}
             />
@@ -137,7 +152,7 @@ export default function Nav() {
         style={{
           opacity: menuOpen ? 1 : 0,
           transitionProperty: 'opacity',
-          transitionDuration: `${DUR.base}s`,
+          transitionDuration: reduced ? '0s' : `${DUR.base}s`,
           transitionTimingFunction: EASE.smooth,
         }}
         aria-hidden={!menuOpen}
@@ -147,14 +162,14 @@ export default function Nav() {
             key={link.href}
             style={{
               transitionProperty: 'opacity, transform',
-              transitionDuration: `${DUR.base}s`,
+              transitionDuration: reduced ? '0s' : `${DUR.base}s`,
               transitionTimingFunction: EASE.smooth,
-              transitionDelay: `${stagger(i)}s`,
+              transitionDelay: reduced ? '0s' : `${stagger(i)}s`,
               opacity: menuOpen ? 1 : 0,
               transform: menuOpen ? 'translateY(0)' : 'translateY(12px)',
             }}
           >
-            <NavLink {...link} large onClick={closeMenu} />
+            <NavLink {...link} large onClick={closeMenu} reduced={reduced} />
           </div>
         ))}
       </div>
