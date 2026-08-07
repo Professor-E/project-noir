@@ -63,37 +63,50 @@ const IMAGES = [
   },
 
   // Roastery / atelier interiors.
+  // Fix round (2026-08-06): all 3 replaced — originals failed the dark/warm
+  // grade constraint (bright subway-tile shop, bright sepia café, mostly-lit
+  // wood surface). New picks are low-key: dark walls/surfaces dominate the
+  // frame with a single warm tungsten/amber light source, per the task
+  // reviewer's brief.
   {
     file: 'atelier-1.jpg',
-    url: 'https://images.unsplash.com/photo-1655182404825-d088887fa132?w=1800&q=80&fm=jpg',
-    credit: 'Photo on Unsplash — https://unsplash.com/photos/photo-1655182404825-d088887fa132',
+    url: 'https://images.unsplash.com/photo-1633524418541-4390f0fbeca9?w=1800&q=80&fm=jpg',
+    credit: 'Photo by Emma Ou on Unsplash — https://unsplash.com/photos/a-dimly-lit-room-with-a-counter-and-shelves-qSMHX9Qky3c',
   },
   {
     file: 'atelier-2.jpg',
-    url: 'https://images.unsplash.com/photo-1645677020082-721a854c24f2?w=1800&q=80&fm=jpg',
-    credit: 'Photo on Unsplash — https://unsplash.com/photos/photo-1645677020082-721a854c24f2',
+    url: 'https://images.unsplash.com/photo-1735910626330-25ce60e05e84?w=1800&q=80&fm=jpg',
+    credit: 'Photo by Alexander Kjær Grote on Unsplash — https://unsplash.com/photos/a-dark-room-with-a-lamp-and-a-coffee-maker-ZpgyRflcLX4',
   },
   {
     file: 'atelier-3.jpg',
-    url: 'https://images.unsplash.com/photo-1652212159777-b3b98d40adab?w=1800&q=80&fm=jpg',
-    credit: 'Photo on Unsplash — https://unsplash.com/photos/photo-1652212159777-b3b98d40adab',
+    url: 'https://images.unsplash.com/photo-1552975955-b7a92c9aa248?w=1800&q=80&fm=jpg',
+    credit: 'Photo by Charles Postiaux on Unsplash — https://unsplash.com/photos/an-espresso-machine-sitting-on-top-of-a-counter-kLfAST5nqjM',
   },
 
   // Origin / farm landscapes.
+  // Fix round (2026-08-06): all 3 replaced — originals failed the dark/warm
+  // grade constraint (full-daylight green valley, pale-blue-sky vista, hazy
+  // jungle with no visible coffee). Real coffee-farm photography is
+  // inherently outdoor/daylight, so these lean on tight, shaded, or
+  // warm-lit crops (shade-grown branches, hand-harvested cherries against
+  // dark backgrounds) that both show genuine coffee cultivation and hold
+  // the noir grade better than any wide daylight vista available. See the
+  // fix-round report for the CSS-darkening-filter fallback note.
   {
     file: 'origin-ethiopia.jpg',
-    url: 'https://images.unsplash.com/photo-1572888195250-3037a59d3578?w=1800&q=80&fm=jpg',
-    credit: 'Photo on Unsplash — https://unsplash.com/photos/photo-1572888195250-3037a59d3578',
+    url: 'https://images.unsplash.com/photo-1746367805612-bc46ff00bf9a?w=1800&q=80&fm=jpg',
+    credit: 'Photo by PROJETO CAFÉ GATO-MOURISCO on Unsplash — https://unsplash.com/photos/coffee-berries-growing-on-a-leafy-branch-w2_RA1-3NaU',
   },
   {
     file: 'origin-colombia.jpg',
-    url: 'https://images.unsplash.com/photo-1646438596321-5cded1891b62?w=1800&q=80&fm=jpg',
-    credit: 'Photo on Unsplash — https://unsplash.com/photos/photo-1646438596321-5cded1891b62',
+    url: 'https://images.unsplash.com/photo-1629008642899-178df6fc5f2f?w=1800&q=80&fm=jpg',
+    credit: 'Photo by Nguyen Tong Hai Van on Unsplash — https://unsplash.com/photos/red-and-brown-round-fruits-in-white-plastic-bucket-b8xo59IcAUY',
   },
   {
     file: 'origin-sumatra.jpg',
-    url: 'https://images.unsplash.com/photo-1592194257036-996a8d58d8f8?w=1800&q=80&fm=jpg',
-    credit: 'Photo on Unsplash — https://unsplash.com/photos/photo-1592194257036-996a8d58d8f8',
+    url: 'https://images.unsplash.com/photo-1762277142860-fdc8c4cfbdd9?w=1800&q=80&fm=jpg',
+    credit: 'Photo by LIVESTART STIVEN on Unsplash — https://unsplash.com/photos/hands-picking-ripe-red-coffee-cherries-from-branches-aXLk1YTaxNM',
   },
 ]
 

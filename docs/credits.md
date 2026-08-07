@@ -36,11 +36,11 @@ good practice). Fetched via `scripts/fetch-images.mjs`.
 - `public/images/bean-light.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1712143525667-717b146a141f
 - `public/images/bean-medium.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1624258247141-0d28b2f5b6d2
 - `public/images/bean-dark.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1628236876894-dbde8ff5a944
-- `public/images/atelier-1.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1655182404825-d088887fa132
-- `public/images/atelier-2.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1645677020082-721a854c24f2
-- `public/images/atelier-3.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1652212159777-b3b98d40adab
-- `public/images/origin-ethiopia.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1572888195250-3037a59d3578
-- `public/images/origin-colombia.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1646438596321-5cded1891b62
-- `public/images/origin-sumatra.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1592194257036-996a8d58d8f8
+- `public/images/atelier-1.jpg` — Photo by Emma Ou on Unsplash — https://unsplash.com/photos/a-dimly-lit-room-with-a-counter-and-shelves-qSMHX9Qky3c
+- `public/images/atelier-2.jpg` — Photo by Alexander Kjær Grote on Unsplash — https://unsplash.com/photos/a-dark-room-with-a-lamp-and-a-coffee-maker-ZpgyRflcLX4
+- `public/images/atelier-3.jpg` — Photo by Charles Postiaux on Unsplash — https://unsplash.com/photos/an-espresso-machine-sitting-on-top-of-a-counter-kLfAST5nqjM
+- `public/images/origin-ethiopia.jpg` — Photo by PROJETO CAFÉ GATO-MOURISCO on Unsplash — https://unsplash.com/photos/coffee-berries-growing-on-a-leafy-branch-w2_RA1-3NaU
+- `public/images/origin-colombia.jpg` — Photo by Nguyen Tong Hai Van on Unsplash — https://unsplash.com/photos/red-and-brown-round-fruits-in-white-plastic-bucket-b8xo59IcAUY
+- `public/images/origin-sumatra.jpg` — Photo by LIVESTART STIVEN on Unsplash — https://unsplash.com/photos/hands-picking-ripe-red-coffee-cherries-from-branches-aXLk1YTaxNM
 
 Downloaded: 2026-08-07
