@@ -12,7 +12,6 @@ import {
 import { useCart } from '@/lib/cart-store'
 import { DUR, EASE, EASE_CSS, prefersReducedMotion } from '@/lib/motion'
 import type { Product } from '@/lib/products'
-import { useMagnetic } from '@/lib/use-magnetic'
 
 const GRINDS: Grind[] = ['Whole Bean', 'Espresso', 'Filter', 'French Press']
 const WEIGHTS: Weight[] = ['250g', '1kg']
@@ -151,7 +150,6 @@ export default function AddToCart({ product }: { product: Product }) {
   const [addedCount, setAddedCount] = useState(0)
 
   const add = useCart((state) => state.add)
-  const buttonRef = useMagnetic<HTMLButtonElement>()
 
   useEffect(() => {
     // Deferred to an effect (not a lazy useState initializer) so the server-rendered
@@ -300,7 +298,6 @@ export default function AddToCart({ product }: { product: Product }) {
           context (no explicit z-index on the button), so the label span's
           z-[210] escapes to compete directly with the fixed cursor dot. */}
       <button
-        ref={buttonRef}
         type="button"
         data-cursor
         onClick={() => {

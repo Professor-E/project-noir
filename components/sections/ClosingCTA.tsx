@@ -4,13 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Reveal from '@/components/scroll/Reveal'
 import { DUR, stagger } from '@/lib/motion'
-import { useMagnetic } from '@/lib/use-magnetic'
 
 export default function ClosingCTA() {
-  // Extracted to a shared hook in Task 10 so AddToCart's primary button behaves
-  // identically to this one.
-  const buttonRef = useMagnetic<HTMLAnchorElement>()
-
   return (
     <section
       aria-labelledby="cta-heading"
@@ -45,7 +40,6 @@ export default function ClosingCTA() {
         <Reveal delay={stagger(4)}>
           <div className="mt-16">
             <Link
-              ref={buttonRef}
               href="/shop"
               data-cursor
               className="relative z-[210] inline-flex items-center gap-4 border border-crema/60 px-10 py-5 text-sm uppercase tracking-[0.18em] text-crema transition-colors hover:bg-crema hover:text-void"
