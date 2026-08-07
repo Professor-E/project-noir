@@ -23,14 +23,19 @@ export default function Manifesto() {
     if (!section) return
 
     const spans = section.querySelectorAll<HTMLSpanElement>('[data-manifesto-line]')
+    // `y: 0` alongside yPercent in both branches: GSAP seeds its cache from the
+    // computed matrix, which has already resolved the server-rendered
+    // `translateY(100%)` into a pixel offset of one line-height. Setting
+    // yPercent alone leaves that pixel offset in place, so the line stays
+    // pushed out of its overflow-hidden mask and the copy is never seen.
     if (prefersReducedMotion()) {
-      gsap.set(spans, { yPercent: 0 })
+      gsap.set(spans, { yPercent: 0, y: 0 })
       return
     }
 
     const tween = gsap.fromTo(
       spans,
-      { yPercent: 100 },
+      { yPercent: 100, y: 0 },
       {
         yPercent: 0,
         duration: DUR.slow,

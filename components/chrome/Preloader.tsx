@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { FRAME_COUNT, framePath } from '@/lib/frames'
-import { DUR, EASE } from '@/lib/motion'
+import { DUR, EASE, prefersReducedMotion } from '@/lib/motion'
 
 export default function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -34,7 +34,10 @@ export default function Preloader() {
     Promise.race([Promise.all(jobs), timeout]).then(() => {
       if (cancelled) return
       const el = rootRef.current
-      if (!el) return setDone(true)
+      // The curtain is the only animation here, and it is what stands between
+      // the visitor and the page: with motion off it is dropped outright rather
+      // than played at zero duration, so nothing is gated on a tween at all.
+      if (!el || prefersReducedMotion()) return setDone(true)
       gsap.to(el, {
         yPercent: -100,
         duration: DUR.curtain,

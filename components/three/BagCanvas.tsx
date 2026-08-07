@@ -134,6 +134,8 @@ export default function BagCanvas({ roast, name, image }: Props) {
       canvas.style.cursor = 'grabbing'
       canvas.setPointerCapture(e.pointerId)
       dirty = true
+      // No-op unless the reduced-motion branch above has parked the loop.
+      start()
     }
 
     const onPointerMove = (e: PointerEvent) => {
@@ -165,8 +167,6 @@ export default function BagCanvas({ roast, name, image }: Props) {
     let frame: number | null = null
 
     const tick = () => {
-      frame = requestAnimationFrame(tick)
-
       let moving = false
       if (!dragging) {
         // Ambient motion only; the drag path above is user-initiated and stays
@@ -191,9 +191,21 @@ export default function BagCanvas({ roast, name, image }: Props) {
       }
       bag.rotation.x = BASE_TILT + tilt
 
-      if (!moving && !dirty) return
-      dirty = false
-      renderer.render(scene, camera)
+      if (moving || dirty) {
+        dirty = false
+        renderer.render(scene, camera)
+      }
+
+      // With motion off there is no ambient spin, so once the residual throw
+      // and tilt have decayed there is nothing left to drive: the loop parks
+      // itself rather than burning a frame callback forever. A pointerdown
+      // (still live under reduced motion) restarts it.
+      if (reduced && !dragging && !moving) {
+        frame = null
+        return
+      }
+
+      frame = requestAnimationFrame(tick)
     }
 
     const start = () => {

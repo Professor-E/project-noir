@@ -40,6 +40,7 @@ export default function Cursor() {
   return (
     <div
       ref={dotRef}
+      aria-hidden
       className="pointer-events-none fixed left-0 top-0 z-[200] h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-crema mix-blend-difference"
     />
   )

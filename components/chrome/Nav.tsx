@@ -161,6 +161,10 @@ export default function Nav() {
         </div>
       </header>
 
+      {/* The closed menu is still laid out (it fades, so it cannot be
+          display:none), so `inert` is what keeps its four links out of the tab
+          order rather than leaving invisible stops between the menu button and
+          the page content. */}
       <div
         id="mobile-menu"
         className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-void md:hidden ${
@@ -172,6 +176,7 @@ export default function Nav() {
           transitionDuration: reduced ? '0s' : `${DUR.base}s`,
           transitionTimingFunction: EASE.smooth,
         }}
+        inert={!menuOpen}
         aria-hidden={!menuOpen}
       >
         {LINKS.map((link, i) => (

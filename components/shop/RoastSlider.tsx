@@ -147,6 +147,7 @@ export default function RoastSlider() {
                 ref={(el) => {
                   layerRefs.current[i] = el
                 }}
+                aria-hidden
                 className="absolute inset-0"
                 style={{ opacity: i === beanIndexFor(3) ? 1 : 0 }}
               >

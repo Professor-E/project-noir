@@ -28,6 +28,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-void text-bone">
         <Preloader />
         <Cursor />
+        {/* First focusable element in the document; the preloader and cursor
+            above it render no tab stops of their own. */}
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <Nav />
         <SmoothScroll>{children}</SmoothScroll>
         <Footer />

@@ -23,6 +23,40 @@ body {
 
 ::selection { background: var(--color-crema); color: var(--color-void); }
 
+/* Unlayered on purpose: Tailwind's utilities live in @layer utilities, so this
+   wins over any `outline-none` a component set for its hover treatment and no
+   control can end up without a keyboard focus indicator. */
+:focus-visible {
+  outline: 2px solid var(--color-crema);
+  outline-offset: 3px;
+}
+
+/* tabindex="-1" is never a tab stop: these are programmatic focus targets only
+   (the skip-link destination, the cart drawer panel), and framing the whole
+   region would read as a rendering fault rather than as focus. */
+[tabindex="-1"]:focus-visible {
+  outline: none;
+}
+
+/* Off-screen until focused; the first focusable element on every page. */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  transform: translateY(-150%);
+  background: var(--color-crema);
+  color: var(--color-void);
+  padding: 0.9rem 1.5rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .display {
   font-family: var(--font-display);
   font-weight: 400;

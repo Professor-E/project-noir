@@ -59,7 +59,7 @@ export default async function ProductPage({ params }: Params) {
   const others = PRODUCTS.filter((p) => p.slug !== product.slug).slice(0, 3)
 
   return (
-    <main className="w-full bg-void px-6 pb-32 pt-32 md:px-10 md:pb-48 md:pt-36">
+    <main id="main" tabIndex={-1} className="w-full bg-void px-6 pb-32 pt-32 md:px-10 md:pb-48 md:pt-36">
       <div className="mx-auto max-w-7xl">
         <Link
           href="/shop"

@@ -59,7 +59,7 @@ const ETHOS = [
 
 export default function AboutPage() {
   return (
-    <main>
+    <main id="main" tabIndex={-1}>
       <section
         aria-labelledby="about-heading"
         className="relative flex min-h-screen w-full items-end overflow-hidden bg-void px-6 pb-20 pt-40 md:px-10 md:pb-28"

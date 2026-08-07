@@ -17,7 +17,7 @@ const HOURS = [
 
 export default function ContactPage() {
   return (
-    <main className="relative flex min-h-screen w-full flex-col bg-void px-6 pb-24 pt-40 md:px-10 md:pb-32">
+    <main id="main" tabIndex={-1} className="relative flex min-h-screen w-full flex-col bg-void px-6 pb-24 pt-40 md:px-10 md:pb-32">
       <div className="mx-auto grid w-full max-w-7xl gap-16 md:grid-cols-2 md:gap-10">
         <div>
           <Reveal>

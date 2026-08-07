@@ -78,8 +78,15 @@ export default function CartDrawer() {
 
   // Normalises GSAP's transform cache to the inline start state rendered on the
   // server, so the first open tweens from off-screen rather than snapping.
+  //
+  // `x: 0` is load-bearing. GSAP seeds its cache from the *computed* matrix, and
+  // a matrix cannot carry a percentage: the server's `translateX(100%)` is read
+  // back as `x: 390px` (the panel's own width). Setting xPercent alone would
+  // stack 100% on top of that resolved pixel offset, and — worse — the offset
+  // would survive `xPercent: 0` on open, parking the panel exactly one width
+  // off the right edge with the scrim up and focus trapped inside it.
   useEffect(() => {
-    gsap.set(panelRef.current, { xPercent: 100 })
+    gsap.set(panelRef.current, { xPercent: 100, x: 0 })
     gsap.set(scrimRef.current, { opacity: 0 })
   }, [])
 
@@ -310,7 +317,10 @@ export default function CartDrawer() {
                     ref={setRowRef(key)}
                     className="flex gap-5 overflow-hidden border-b border-bone/10 py-6"
                   >
-                    <div className="relative aspect-square w-20 shrink-0 overflow-hidden bg-void">
+                    <div
+                      aria-hidden
+                      className="relative aspect-square w-20 shrink-0 overflow-hidden bg-void"
+                    >
                       {image && (
                         <Image
                           src={image}

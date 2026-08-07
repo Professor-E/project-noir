@@ -108,7 +108,9 @@ export default function FrameSequence({ children, heightVh = 400 }: Props) {
         className="relative w-full"
       >
         <div className="sticky top-0 h-screen w-full overflow-hidden">
-          <canvas ref={canvasRef} className="h-screen w-full" />
+          {/* Purely atmospheric: the beat copy layered over it carries the
+              meaning, so the canvas is hidden from assistive tech. */}
+          <canvas ref={canvasRef} aria-hidden className="h-screen w-full" />
           <div className="pointer-events-none absolute inset-0">{children}</div>
         </div>
       </section>

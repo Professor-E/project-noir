@@ -19,7 +19,13 @@ export default function KineticType() {
       <div className="flex h-full flex-col justify-center gap-6 px-8">
         {BEATS.map((beat) => (
           <div key={beat.word}>
-            <h2 className="display text-[12vw]">{beat.word}</h2>
+            {/* Clamped rather than a raw vw: with motion off all four beats are
+                stacked inside one 100vh pane that clips its overflow, so an
+                unbounded size would push the last word off a wide, short
+                viewport and hide copy the scrub would otherwise have revealed. */}
+            <h2 className="display" style={{ fontSize: 'clamp(2rem, 7vw, 5rem)' }}>
+              {beat.word}
+            </h2>
             <p className="eyebrow mt-2">{beat.sub}</p>
           </div>
         ))}

@@ -9,7 +9,7 @@ import ClosingCTA from '@/components/sections/ClosingCTA'
 
 export default function Home() {
   return (
-    <main>
+    <main id="main" tabIndex={-1}>
       <FrameSequence>
         <KineticType />
       </FrameSequence>

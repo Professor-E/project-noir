@@ -15,7 +15,7 @@ export function generateMetadata(): Metadata {
 
 export default function ShopPage() {
   return (
-    <main className="w-full bg-void px-6 pb-32 pt-40 md:px-10 md:pb-48 md:pt-52">
+    <main id="main" tabIndex={-1} className="w-full bg-void px-6 pb-32 pt-40 md:px-10 md:pb-48 md:pt-52">
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <span className="eyebrow block">The Collection</span>
