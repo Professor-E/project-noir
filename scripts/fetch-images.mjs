@@ -61,6 +61,16 @@ const IMAGES = [
     url: 'https://images.unsplash.com/photo-1628236876894-dbde8ff5a944?w=1800&q=80&fm=jpg',
     credit: 'Photo on Unsplash — https://unsplash.com/photos/photo-1628236876894-dbde8ff5a944',
   },
+  {
+    file: 'bean-light-medium.jpg',
+    url: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1800&q=80&fm=jpg',
+    credit: 'Photo by Mike Kenneally on Unsplash — https://unsplash.com/photos/coffee-bean-lot-TD4DBagg2wE',
+  },
+  {
+    file: 'bean-medium-dark.jpg',
+    url: 'https://images.unsplash.com/photo-1606486544554-164d98da4889?w=1800&q=80&fm=jpg',
+    credit: 'Photo by Łukasz Rawa on Unsplash — https://unsplash.com/photos/brown-coffee-beans-on-black-surface-fmc-tFMMiBs',
+  },
 
   // Roastery / atelier interiors.
   // Fix round (2026-08-06): all 3 replaced — originals failed the dark/warm

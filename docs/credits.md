@@ -36,6 +36,8 @@ good practice). Fetched via `scripts/fetch-images.mjs`.
 - `public/images/bean-light.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1712143525667-717b146a141f
 - `public/images/bean-medium.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1624258247141-0d28b2f5b6d2
 - `public/images/bean-dark.jpg` — Photo on Unsplash — https://unsplash.com/photos/photo-1628236876894-dbde8ff5a944
+- `public/images/bean-light-medium.jpg` — Photo by Mike Kenneally on Unsplash — https://unsplash.com/photos/coffee-bean-lot-TD4DBagg2wE
+- `public/images/bean-medium-dark.jpg` — Photo by Łukasz Rawa on Unsplash — https://unsplash.com/photos/brown-coffee-beans-on-black-surface-fmc-tFMMiBs
 - `public/images/atelier-1.jpg` — Photo by Emma Ou on Unsplash — https://unsplash.com/photos/a-dimly-lit-room-with-a-counter-and-shelves-qSMHX9Qky3c
 - `public/images/atelier-2.jpg` — Photo by Alexander Kjær Grote on Unsplash — https://unsplash.com/photos/a-dark-room-with-a-lamp-and-a-coffee-maker-ZpgyRflcLX4
 - `public/images/atelier-3.jpg` — Photo by Charles Postiaux on Unsplash — https://unsplash.com/photos/an-espresso-machine-sitting-on-top-of-a-counter-kLfAST5nqjM

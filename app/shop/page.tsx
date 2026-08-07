@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Reveal from '@/components/scroll/Reveal'
-import { columnOffset } from '@/components/sections/Collection'
 import ProductCard from '@/components/shop/ProductCard'
 import { stagger } from '@/lib/motion'
 import { PRODUCTS } from '@/lib/products'
@@ -36,7 +35,7 @@ export default function ShopPage() {
 
         <div className="mt-24 grid gap-x-8 gap-y-20 md:mt-32 md:grid-cols-3 md:pt-12">
           {PRODUCTS.map((product, i) => (
-            <Reveal key={product.slug} delay={stagger(i % 3)} className={columnOffset(i)}>
+            <Reveal key={product.slug} delay={stagger(i % 3)}>
               <ProductCard product={product} index={i} />
             </Reveal>
           ))}

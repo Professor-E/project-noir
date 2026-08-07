@@ -19,12 +19,14 @@ const ROAST_LABELS: Record<Roast, string> = {
   5: 'Dark',
 }
 
-// Three plates cover five stops: the roast reads as a continuum, the imagery
-// steps in thirds the way a roaster's colour discs do.
+// One plate per stop so every roast level on the slider shows its own bean
+// imagery, lightest to darkest, instead of sharing a photo with its neighbour.
 const BEAN_LAYERS = [
-  { src: '/images/bean-light.jpg', covers: [1, 2] },
+  { src: '/images/bean-light.jpg', covers: [1] },
+  { src: '/images/bean-light-medium.jpg', covers: [2] },
   { src: '/images/bean-medium.jpg', covers: [3] },
-  { src: '/images/bean-dark.jpg', covers: [4, 5] },
+  { src: '/images/bean-medium-dark.jpg', covers: [4] },
+  { src: '/images/bean-dark.jpg', covers: [5] },
 ] as const
 
 const BG_FROM = '#1B1512'
@@ -187,12 +189,23 @@ export default function RoastSlider() {
           </div>
 
           <div>
-            {/* aria-live so the paired product is announced when the slider moves. */}
+            {/* aria-live so the paired product is announced when the slider moves.
+                Every block below reserves the height its longest possible content
+                needs (name/notes/blurb length vary a lot SKU to SKU) so dragging
+                the slider never shifts anything beneath it. */}
             <div aria-live="polite">
-              <h3 className="display text-5xl text-bone md:text-6xl">{product.name}</h3>
+              <h3
+                className="display text-5xl text-bone md:text-6xl"
+                style={{ minHeight: '1.2em' }}
+              >
+                {product.name}
+              </h3>
               <span className="eyebrow mt-3 block">{product.origin}</span>
 
-              <ul className="mt-8 flex flex-wrap gap-x-3 gap-y-2 text-sm text-bone/85">
+              <ul
+                className="mt-8 flex flex-wrap gap-x-3 gap-y-2 text-sm text-bone/85"
+                style={{ minHeight: '3.25rem' }}
+              >
                 {product.notes.map((note, i) => (
                   <li key={note} className="flex items-center gap-3">
                     {i > 0 && <span className="text-ash/60">·</span>}
@@ -201,42 +214,45 @@ export default function RoastSlider() {
                 ))}
               </ul>
 
-              <p className="mt-6 max-w-[46ch] text-sm leading-relaxed text-ash">
+              <p
+                className="mt-6 line-clamp-3 max-w-[46ch] text-sm leading-relaxed text-ash"
+                style={{ minHeight: '4.5rem' }}
+              >
                 {product.blurb}
               </p>
 
               <p className="mt-8 text-sm tabular-nums text-bone/80">${product.price}</p>
             </div>
 
-            {/* Two SKUs share the medium stop, so the stop gets a picker rather
-                than silently hiding the second one. */}
-            {slugs.length > 1 && (
-              <div className="mt-8">
-                <span className="eyebrow block">Two at this roast</span>
-                <div className="mt-3 flex flex-wrap gap-px border border-bone/15 p-px">
-                  {slugs.map((slug, i) => {
-                    const option = getProduct(slug)
-                    if (!option) return null
-                    const active = i === variantIndex
-                    return (
-                      <button
-                        key={slug}
-                        type="button"
-                        data-cursor
-                        aria-pressed={active}
-                        onClick={() => setVariant(i)}
-                        className={`flex-1 whitespace-nowrap px-5 py-3 text-xs uppercase tracking-[0.14em] outline-none transition-colors focus-visible:ring-1 focus-visible:ring-crema ${
-                          active ? 'bg-crema text-void' : 'text-bone/70 hover:text-bone'
-                        }`}
-                        style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
-                      >
-                        {option.name}
-                      </button>
-                    )
-                  })}
-                </div>
+            {/* Two SKUs share the medium stop, so that stop gets a picker rather
+                than silently hiding the second one. The block stays mounted at
+                every stop (just invisible) so its height is always reserved and
+                the slider/link below never jump when this appears or disappears. */}
+            <div className={`mt-8 ${slugs.length > 1 ? '' : 'invisible'}`} aria-hidden={slugs.length <= 1}>
+              <span className="eyebrow block">Two at this roast</span>
+              <div className="mt-3 flex flex-wrap gap-px border border-bone/15 p-px">
+                {(slugs.length > 1 ? slugs : ['', '']).map((slug, i) => {
+                  const option = slug ? getProduct(slug) : undefined
+                  const active = i === variantIndex
+                  return (
+                    <button
+                      key={slug || i}
+                      type="button"
+                      data-cursor
+                      tabIndex={slugs.length > 1 ? 0 : -1}
+                      aria-pressed={active}
+                      onClick={() => setVariant(i)}
+                      className={`flex-1 whitespace-nowrap px-5 py-3 text-xs uppercase tracking-[0.14em] outline-none transition-colors focus-visible:ring-1 focus-visible:ring-crema ${
+                        active ? 'bg-crema text-void' : 'text-bone/70 hover:text-bone'
+                      }`}
+                      style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
+                    >
+                      {option?.name ?? ' '}
+                    </button>
+                  )
+                })}
               </div>
-            )}
+            </div>
 
             <div className="mt-14">
               <div className="mb-5 flex items-center justify-between">
