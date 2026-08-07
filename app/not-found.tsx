@@ -38,7 +38,7 @@ export default function NotFound() {
       <Link
         href="/"
         data-cursor
-        className="mt-14 inline-flex items-center gap-4 border border-crema/60 px-10 py-5 text-sm uppercase tracking-[0.18em] text-crema transition-colors hover:bg-crema hover:text-void"
+        className="relative z-[210] mt-14 inline-flex items-center gap-4 border border-crema/60 px-10 py-5 text-sm uppercase tracking-[0.18em] text-crema transition-colors hover:bg-crema hover:text-void"
         style={{ transitionDuration: `${DUR.fast}s` }}
       >
         Back to Noir

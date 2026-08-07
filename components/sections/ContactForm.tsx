@@ -316,14 +316,26 @@ export default function ContactForm() {
             {errors.form ?? ''}
           </p>
 
+          {/* Fill is a separate layer behind the label, same reasoning as
+              AddToCart's primary button: a button's own background can't be
+              split from its own content by z-index alone. */}
           <button
             type="submit"
             data-cursor
             disabled={status === 'submitting'}
-            className="inline-flex w-full items-center justify-center gap-4 border border-crema bg-crema px-10 py-5 text-sm uppercase tracking-[0.18em] text-void outline-none transition-colors hover:bg-transparent hover:text-crema focus-visible:ring-1 focus-visible:ring-crema disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
-            style={transitionStyle(reduced)}
+            className="group relative inline-flex w-full items-center justify-center gap-4 border border-crema px-10 py-5 text-sm uppercase tracking-[0.18em] outline-none focus-visible:ring-1 focus-visible:ring-crema disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
           >
-            {status === 'submitting' ? 'Sending' : 'Send message'}
+            <span
+              aria-hidden
+              className="absolute inset-0 bg-crema transition-colors group-hover:bg-transparent"
+              style={transitionStyle(reduced)}
+            />
+            <span
+              className="relative z-[210] text-void transition-colors group-hover:text-crema"
+              style={transitionStyle(reduced)}
+            >
+              {status === 'submitting' ? 'Sending' : 'Send message'}
+            </span>
           </button>
         </form>
       </div>

@@ -1,7 +1,6 @@
 import FrameSequence from '@/components/scroll/FrameSequence'
 import KineticType from '@/components/scroll/KineticType'
 import Manifesto from '@/components/sections/Manifesto'
-import CollectionTeaser from '@/components/sections/CollectionTeaser'
 import RoastSlider from '@/components/shop/RoastSlider'
 import BrewGuide from '@/components/brew/BrewGuide'
 import OriginStrip from '@/components/sections/OriginStrip'
@@ -19,7 +18,6 @@ export default function Home() {
         <KineticType />
       </FrameSequence>
       <Manifesto />
-      <CollectionTeaser />
       <RoastSlider />
       <BrewGuide />
       <OriginStrip />

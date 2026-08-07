@@ -125,7 +125,7 @@ function Segmented<T extends string>({
               data-cursor
               aria-pressed={active}
               onClick={() => onChange(option)}
-              className={`relative z-10 flex-1 whitespace-nowrap px-5 py-3 text-xs uppercase tracking-[0.14em] outline-none transition-colors focus-visible:ring-1 focus-visible:ring-crema ${
+              className={`relative z-[210] flex-1 whitespace-nowrap px-5 py-3 text-xs uppercase tracking-[0.14em] outline-none transition-colors focus-visible:ring-1 focus-visible:ring-crema ${
                 active ? 'text-void' : 'text-bone/70 hover:text-bone'
               }`}
               style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
@@ -205,7 +205,7 @@ export default function AddToCart({ product }: { product: Product }) {
             aria-checked={subscribe}
             data-cursor
             onClick={() => setSubscribe((on) => !on)}
-            className="mt-4 flex w-full items-center justify-between gap-6 border border-bone/15 px-5 py-4 text-left outline-none transition-colors hover:border-bone/35 focus-visible:ring-1 focus-visible:ring-crema"
+            className="relative z-[210] mt-4 flex w-full items-center justify-between gap-6 border border-bone/15 px-5 py-4 text-left outline-none transition-colors hover:border-bone/35 focus-visible:ring-1 focus-visible:ring-crema"
             style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
           >
             <span>
@@ -253,7 +253,7 @@ export default function AddToCart({ product }: { product: Product }) {
                 aria-label="Decrease quantity"
                 disabled={qty <= 1}
                 onClick={() => setQty((n) => Math.max(1, n - 1))}
-                className="px-5 py-3 text-bone/80 outline-none transition-colors hover:text-bone focus-visible:ring-1 focus-visible:ring-crema disabled:opacity-30"
+                className="relative z-[210] px-5 py-3 text-bone/80 outline-none transition-colors hover:text-bone focus-visible:ring-1 focus-visible:ring-crema disabled:opacity-30"
                 style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
               >
                 &minus;
@@ -270,7 +270,7 @@ export default function AddToCart({ product }: { product: Product }) {
                 aria-label="Increase quantity"
                 disabled={qty >= MAX_QTY}
                 onClick={() => setQty((n) => Math.min(MAX_QTY, n + 1))}
-                className="px-5 py-3 text-bone/80 outline-none transition-colors hover:text-bone focus-visible:ring-1 focus-visible:ring-crema disabled:opacity-30"
+                className="relative z-[210] px-5 py-3 text-bone/80 outline-none transition-colors hover:text-bone focus-visible:ring-1 focus-visible:ring-crema disabled:opacity-30"
                 style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
               >
                 +
@@ -292,6 +292,13 @@ export default function AddToCart({ product }: { product: Product }) {
         </div>
       </div>
 
+      {/* The fill is a separate layer behind the label (rather than the
+          button's own background) so the cursor circle can sit between them:
+          fill at the bottom, circle in the middle, label on top. A button's
+          own background can never be split from its own content by z-index
+          alone — position: relative here does not create a new stacking
+          context (no explicit z-index on the button), so the label span's
+          z-[210] escapes to compete directly with the fixed cursor dot. */}
       <button
         ref={buttonRef}
         type="button"
@@ -300,12 +307,21 @@ export default function AddToCart({ product }: { product: Product }) {
           add(line)
           setAddedCount((n) => n + 1)
         }}
-        className="mt-12 inline-flex w-full items-center justify-center gap-4 border border-crema bg-crema px-10 py-5 text-sm uppercase tracking-[0.18em] text-void outline-none transition-colors hover:bg-transparent hover:text-crema focus-visible:ring-1 focus-visible:ring-crema md:w-auto"
-        style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
+        className="group relative mt-12 inline-flex w-full items-center justify-center gap-4 border border-crema px-10 py-5 text-sm uppercase tracking-[0.18em] outline-none focus-visible:ring-1 focus-visible:ring-crema md:w-auto"
       >
-        Add to cart
-        <span aria-hidden>&mdash;</span>
-        <span className="tabular-nums">{formatUSD(total)}</span>
+        <span
+          aria-hidden
+          className="absolute inset-0 bg-crema transition-colors group-hover:bg-transparent"
+          style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
+        />
+        <span
+          className="relative z-[210] inline-flex items-center gap-4 text-void transition-colors group-hover:text-crema"
+          style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
+        >
+          Add to cart
+          <span aria-hidden>&mdash;</span>
+          <span className="tabular-nums">{formatUSD(total)}</span>
+        </span>
       </button>
 
       {/* The inner span is keyed on the add counter so every click replaces the

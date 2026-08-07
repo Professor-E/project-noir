@@ -64,7 +64,7 @@ export default async function ProductPage({ params }: Params) {
         <Link
           href="/shop"
           data-cursor
-          className="eyebrow inline-flex items-center gap-3 text-ash transition-colors hover:text-bone"
+          className="eyebrow relative z-[210] inline-flex items-center gap-3 text-ash transition-colors hover:text-bone"
         >
           <span aria-hidden>&larr;</span>
           All coffee

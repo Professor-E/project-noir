@@ -172,7 +172,7 @@ function MethodCard({
           aria-expanded={open}
           aria-controls={`brew-panel-${method.id}`}
           id={`brew-header-${method.id}`}
-          className="flex w-full items-baseline justify-between gap-6 px-7 pb-6 pt-8 text-left outline-none focus-visible:ring-1 focus-visible:ring-crema/60 md:px-9 md:pt-10"
+          className="relative z-[210] flex w-full items-baseline justify-between gap-6 px-7 pb-6 pt-8 text-left outline-none focus-visible:ring-1 focus-visible:ring-crema/60 md:px-9 md:pt-10"
         >
           <span className="display text-4xl text-bone md:text-5xl">{method.name}</span>
           <span className="eyebrow shrink-0">{String(index + 1).padStart(2, '0')}</span>

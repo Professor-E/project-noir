@@ -92,13 +92,23 @@ export default function Nav() {
 
   return (
     <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 grid grid-cols-3 items-center border-b px-6 py-5 transition-[background-color,backdrop-filter,border-color] md:px-10 ${
+      {/* Visual bar only — kept a separate fixed element (not nested inside the
+          header below) because `position: fixed` always creates its own
+          stacking context, so anything nested inside it can never escape to
+          paint above a same-level fixed sibling like the cursor dot. This is
+          the bottom layer: bar, then the cursor circle, then the nav text. */}
+      <div
+        aria-hidden
+        className={`pointer-events-none fixed inset-x-0 top-0 z-[100] h-[76px] border-b transition-[background-color,backdrop-filter,border-color] ${
           scrolled
             ? 'border-bone/10 bg-void/70 backdrop-blur-md'
             : 'border-transparent bg-transparent'
         }`}
         style={transitionStyle(reduced)}
+      />
+
+      <header
+        className="fixed inset-x-0 top-0 z-[210] grid h-[76px] grid-cols-3 items-center px-6 md:px-10"
       >
         <Link href="/" data-cursor className="display justify-self-start text-xl">
           NOIR
@@ -164,10 +174,22 @@ export default function Nav() {
       {/* The closed menu is still laid out (it fades, so it cannot be
           display:none), so `inert` is what keeps its four links out of the tab
           order rather than leaving invisible stops between the menu button and
-          the page content. */}
+          the page content. Split into a solid backdrop (below the cursor) and
+          a transparent content layer (above it) for the same reason as the
+          header bar above — a fixed element traps its own descendants. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-[100] bg-void md:hidden"
+        style={{
+          opacity: menuOpen ? 1 : 0,
+          transitionProperty: 'opacity',
+          transitionDuration: reduced ? '0s' : `${DUR.base}s`,
+          transitionTimingFunction: EASE_CSS.smooth,
+        }}
+      />
       <div
         id="mobile-menu"
-        className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-void md:hidden ${
+        className={`fixed inset-0 z-[210] flex flex-col items-center justify-center gap-8 md:hidden ${
           menuOpen ? 'pointer-events-auto' : 'pointer-events-none'
         }`}
         style={{

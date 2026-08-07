@@ -46,7 +46,7 @@ export default function CollectionTeaser() {
               <Link
                 href="/shop"
                 data-cursor
-                className="mt-10 inline-flex items-center gap-3 border-b border-crema/40 pb-2 text-sm text-crema transition-colors hover:border-crema"
+                className="relative z-[210] mt-10 inline-flex items-center gap-3 border-b border-crema/40 pb-2 text-sm text-crema transition-colors hover:border-crema"
               >
                 Shop the collection
                 <span aria-hidden>&rarr;</span>

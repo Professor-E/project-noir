@@ -242,12 +242,20 @@ export default function RoastSlider() {
                       tabIndex={slugs.length > 1 ? 0 : -1}
                       aria-pressed={active}
                       onClick={() => setVariant(i)}
-                      className={`flex-1 whitespace-nowrap px-5 py-3 text-xs uppercase tracking-[0.14em] outline-none transition-colors focus-visible:ring-1 focus-visible:ring-crema ${
-                        active ? 'bg-crema text-void' : 'text-bone/70 hover:text-bone'
-                      }`}
-                      style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
+                      className="relative flex-1 whitespace-nowrap px-5 py-3 text-xs uppercase tracking-[0.14em] outline-none focus-visible:ring-1 focus-visible:ring-crema"
                     >
-                      {option?.name ?? ' '}
+                      {/* Active fill is a separate layer behind the label so the
+                          cursor circle can sit between them: fill, circle, text. */}
+                      <span
+                        aria-hidden
+                        className={`absolute inset-0 bg-crema transition-opacity ${active ? 'opacity-100' : 'opacity-0'}`}
+                        style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
+                      />
+                      <span
+                        className={`relative z-[210] transition-colors ${active ? 'text-void' : 'text-bone/70 hover:text-bone'}`}
+                      >
+                        {option?.name ?? ' '}
+                      </span>
                     </button>
                   )
                 })}
@@ -316,7 +324,7 @@ export default function RoastSlider() {
               <Link
                 href={`/shop/${product.slug}`}
                 data-cursor
-                className="mt-10 inline-flex items-center gap-3 border-b border-crema/40 pb-2 text-sm text-crema transition-colors hover:border-crema"
+                className="relative z-[210] mt-10 inline-flex items-center gap-3 border-b border-crema/40 pb-2 text-sm text-crema transition-colors hover:border-crema"
               >
                 View {product.name}
                 <span aria-hidden>&rarr;</span>

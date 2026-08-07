@@ -33,7 +33,7 @@ export default function Footer() {
                 <Link
                   href={link.href}
                   data-cursor
-                  className="text-sm text-bone/80 transition-colors hover:text-bone"
+                  className="relative z-[210] text-sm text-bone/80 transition-colors hover:text-bone"
                 >
                   {link.label}
                 </Link>
@@ -49,7 +49,7 @@ export default function Footer() {
             <a
               href="mailto:hello@noir.coffee"
               data-cursor
-              className="text-crema underline-offset-4 hover:underline"
+              className="relative z-[210] text-crema underline-offset-4 hover:underline"
             >
               hello@noir.coffee
             </a>

@@ -283,7 +283,7 @@ export default function CartDrawer() {
             data-cursor
             aria-label="Close cart"
             onClick={handleClose}
-            className="eyebrow border border-bone/20 px-3 py-2 text-bone/70 outline-none transition-colors hover:border-bone/50 hover:text-bone focus-visible:ring-1 focus-visible:ring-crema"
+            className="eyebrow relative z-[210] border border-bone/20 px-3 py-2 text-bone/70 outline-none transition-colors hover:border-bone/50 hover:text-bone focus-visible:ring-1 focus-visible:ring-crema"
             style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
           >
             Close
@@ -297,7 +297,7 @@ export default function CartDrawer() {
               href="/shop"
               data-cursor
               onClick={handleClose}
-              className="border-b border-crema pb-1 text-sm uppercase tracking-[0.14em] text-crema outline-none focus-visible:ring-1 focus-visible:ring-crema"
+              className="relative z-[210] border-b border-crema pb-1 text-sm uppercase tracking-[0.14em] text-crema outline-none focus-visible:ring-1 focus-visible:ring-crema"
             >
               Browse the shop
             </Link>
@@ -349,7 +349,7 @@ export default function CartDrawer() {
                             aria-label={`Decrease quantity of ${line.name}`}
                             disabled={line.qty <= 1}
                             onClick={() => setQty(key, line.qty - 1)}
-                            className="px-3 py-2 text-bone/80 outline-none transition-colors hover:text-bone focus-visible:ring-1 focus-visible:ring-crema disabled:opacity-30"
+                            className="relative z-[210] px-3 py-2 text-bone/80 outline-none transition-colors hover:text-bone focus-visible:ring-1 focus-visible:ring-crema disabled:opacity-30"
                             style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
                           >
                             &minus;
@@ -363,7 +363,7 @@ export default function CartDrawer() {
                             aria-label={`Increase quantity of ${line.name}`}
                             disabled={line.qty >= MAX_QTY}
                             onClick={() => setQty(key, line.qty + 1)}
-                            className="px-3 py-2 text-bone/80 outline-none transition-colors hover:text-bone focus-visible:ring-1 focus-visible:ring-crema disabled:opacity-30"
+                            className="relative z-[210] px-3 py-2 text-bone/80 outline-none transition-colors hover:text-bone focus-visible:ring-1 focus-visible:ring-crema disabled:opacity-30"
                             style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
                           >
                             +
@@ -375,7 +375,7 @@ export default function CartDrawer() {
                           data-cursor
                           aria-label={`Remove ${line.name} from cart`}
                           onClick={() => handleRemove(key)}
-                          className="eyebrow outline-none transition-colors hover:text-bone focus-visible:ring-1 focus-visible:ring-crema"
+                          className="eyebrow relative z-[210] outline-none transition-colors hover:text-bone focus-visible:ring-1 focus-visible:ring-crema"
                           style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
                         >
                           Remove
@@ -397,14 +397,25 @@ export default function CartDrawer() {
 
               <p className="mt-3 text-xs text-ash">Shipping and taxes calculated at checkout.</p>
 
+              {/* Fill is a separate layer behind the label, same reasoning as
+                  AddToCart's primary button. */}
               <button
                 type="button"
                 data-cursor
                 onClick={onCheckout}
-                className="mt-6 w-full border border-crema bg-crema px-8 py-4 text-sm uppercase tracking-[0.18em] text-void outline-none transition-colors hover:bg-transparent hover:text-crema focus-visible:ring-1 focus-visible:ring-crema"
-                style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
+                className="group relative mt-6 w-full border border-crema px-8 py-4 text-sm uppercase tracking-[0.18em] outline-none focus-visible:ring-1 focus-visible:ring-crema"
               >
-                Checkout
+                <span
+                  aria-hidden
+                  className="absolute inset-0 bg-crema transition-colors group-hover:bg-transparent"
+                  style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
+                />
+                <span
+                  className="relative z-[210] text-void transition-colors group-hover:text-crema"
+                  style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
+                >
+                  Checkout
+                </span>
               </button>
 
               <p aria-live="polite" className="eyebrow mt-4 h-4">

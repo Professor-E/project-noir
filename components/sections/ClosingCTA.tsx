@@ -48,7 +48,7 @@ export default function ClosingCTA() {
               ref={buttonRef}
               href="/shop"
               data-cursor
-              className="inline-flex items-center gap-4 border border-crema/60 px-10 py-5 text-sm uppercase tracking-[0.18em] text-crema transition-colors hover:bg-crema hover:text-void"
+              className="relative z-[210] inline-flex items-center gap-4 border border-crema/60 px-10 py-5 text-sm uppercase tracking-[0.18em] text-crema transition-colors hover:bg-crema hover:text-void"
               style={{ transitionDuration: `${DUR.fast}s` }}
             >
               Enter the shop

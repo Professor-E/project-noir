@@ -65,6 +65,15 @@ body {
   letter-spacing: -0.015em;
 }
 
+/* Tailwind v4 preflight resets buttons to cursor:default; restore the pointer
+   (hand) cursor on every interactive/hoverable target the custom cursor dot
+   also reacts to (see Cursor.tsx's `closest('a,button,[data-cursor]')`). */
+a,
+button,
+[data-cursor] {
+  cursor: pointer;
+}
+
 .eyebrow {
   font-size: 0.6875rem;
   letter-spacing: 0.32em;

@@ -39,7 +39,7 @@ export default function ContactPage() {
                 <a
                   href="mailto:hello@noir.coffee"
                   data-cursor
-                  className="display mt-3 inline-block text-2xl text-crema outline-none focus-visible:ring-1 focus-visible:ring-crema md:text-3xl"
+                  className="relative z-[210] display mt-3 inline-block text-2xl text-crema outline-none focus-visible:ring-1 focus-visible:ring-crema md:text-3xl"
                 >
                   hello@noir.coffee
                 </a>
