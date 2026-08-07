@@ -22,18 +22,23 @@ export default function SoundToggle() {
 
     if (!playing) {
       gsap.killTweensOf(bars)
-      gsap.to(bars, {
+      const reset = gsap.to(bars, {
         scaleY: 0.35,
         duration: prefersReducedMotion() ? 0 : DUR.fast,
         ease: EASE.smooth,
       })
-      return
+      return () => {
+        reset.kill()
+      }
     }
 
-    // Static, non-looping "on" state when the user prefers reduced motion.
+    // Static, non-looping "on" state when the user prefers reduced motion —
+    // set instantly rather than animated, like every other reduced-motion path.
     if (prefersReducedMotion()) {
-      gsap.to(bars, { scaleY: 0.8, duration: DUR.fast, ease: EASE.smooth })
-      return
+      const on = gsap.to(bars, { scaleY: 0.8, duration: 0, ease: EASE.smooth })
+      return () => {
+        on.kill()
+      }
     }
 
     const tweens = bars.map((bar, i) =>

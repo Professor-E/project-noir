@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { DUR, EASE, prefersReducedMotion } from '@/lib/motion'
-import { PRODUCTS, type Product } from '@/lib/products'
+import { PRODUCTS, ROAST_STOPS, getProduct, type Product } from '@/lib/products'
 
 type Roast = 1 | 2 | 3 | 4 | 5
 
@@ -50,6 +50,9 @@ function beanIndexFor(roast: Roast): number {
 
 export default function RoastSlider() {
   const [roast, setRoast] = useState<Roast>(3)
+  // Which SKU at the current stop is showing. Stop 3 carries two (Ember and
+  // Atlas); every other stop carries one and this stays 0.
+  const [variant, setVariant] = useState(0)
   const [reduced, setReduced] = useState(false)
   const trackRef = useRef<HTMLDivElement>(null)
   const layerRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -63,6 +66,7 @@ export default function RoastSlider() {
 
   useEffect(() => {
     const active = beanIndexFor(roast)
+    const tweens: gsap.core.Tween[] = []
     layerRefs.current.forEach((el, i) => {
       if (!el) return
       const opacity = i === active ? 1 : 0
@@ -70,12 +74,25 @@ export default function RoastSlider() {
         gsap.set(el, { opacity })
         return
       }
-      gsap.to(el, { opacity, duration: DUR.base, ease: EASE.smooth, overwrite: 'auto' })
+      tweens.push(
+        gsap.to(el, { opacity, duration: DUR.base, ease: EASE.smooth, overwrite: 'auto' }),
+      )
     })
+
+    return () => {
+      tweens.forEach((tween) => tween.kill())
+    }
   }, [roast, reduced])
 
-  const product: Product =
-    PRODUCTS.find((p) => p.roast === roast) ?? PRODUCTS[PRODUCTS.length - 1]
+  const slugs = ROAST_STOPS[roast]
+  const variantIndex = Math.min(variant, slugs.length - 1)
+  const product: Product = getProduct(slugs[variantIndex]) ?? PRODUCTS[PRODUCTS.length - 1]
+
+  // Moving the slider always lands on the first SKU of the new stop.
+  const selectRoast = (next: Roast) => {
+    setRoast(next)
+    setVariant(0)
+  }
 
   const clampStop = (value: number): Roast =>
     (Math.min(STOPS.length, Math.max(1, value)) as Roast)
@@ -97,17 +114,17 @@ export default function RoastSlider() {
     else if (e.key === 'End') next = 5
     if (next === null) return
     e.preventDefault()
-    setRoast(next)
+    selectRoast(next)
   }
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     e.currentTarget.setPointerCapture(e.pointerId)
-    setRoast(stopFromClientX(e.clientX))
+    selectRoast(stopFromClientX(e.clientX))
   }
 
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!e.currentTarget.hasPointerCapture(e.pointerId)) return
-    setRoast(stopFromClientX(e.clientX))
+    selectRoast(stopFromClientX(e.clientX))
   }
 
   const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -190,6 +207,36 @@ export default function RoastSlider() {
 
               <p className="mt-8 text-sm tabular-nums text-bone/80">${product.price}</p>
             </div>
+
+            {/* Two SKUs share the medium stop, so the stop gets a picker rather
+                than silently hiding the second one. */}
+            {slugs.length > 1 && (
+              <div className="mt-8">
+                <span className="eyebrow block">Two at this roast</span>
+                <div className="mt-3 flex flex-wrap gap-px border border-bone/15 p-px">
+                  {slugs.map((slug, i) => {
+                    const option = getProduct(slug)
+                    if (!option) return null
+                    const active = i === variantIndex
+                    return (
+                      <button
+                        key={slug}
+                        type="button"
+                        data-cursor
+                        aria-pressed={active}
+                        onClick={() => setVariant(i)}
+                        className={`flex-1 whitespace-nowrap px-5 py-3 text-xs uppercase tracking-[0.14em] outline-none transition-colors focus-visible:ring-1 focus-visible:ring-crema ${
+                          active ? 'bg-crema text-void' : 'text-bone/70 hover:text-bone'
+                        }`}
+                        style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
+                      >
+                        {option.name}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
 
             <div className="mt-14">
               <div className="mb-5 flex items-center justify-between">

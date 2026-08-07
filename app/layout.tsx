@@ -26,6 +26,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${serif.variable} ${sans.variable}`}>
       <body className="bg-void text-bone">
+        {/* If JS is blocked or a chunk fails to load, nothing ever raises the
+            GSAP-driven reveals off their inline start state and most of the
+            body copy stays invisible. This puts all three back at rest. */}
+        <noscript>
+          <style>{`
+            [data-reveal],[data-manifesto-line],[data-brew-step]{opacity:1!important;transform:none!important;visibility:visible!important}
+            [data-preloader]{display:none!important}
+          `}</style>
+        </noscript>
         <Preloader />
         <Cursor />
         {/* First focusable element in the document; the preloader and cursor

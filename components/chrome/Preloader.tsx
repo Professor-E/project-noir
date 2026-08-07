@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { FRAME_COUNT, framePath } from '@/lib/frames'
 import { DUR, EASE, prefersReducedMotion } from '@/lib/motion'
+import { lock, unlock } from '@/lib/scroll-lock'
 
 export default function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -52,10 +53,9 @@ export default function Preloader() {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = done ? '' : 'hidden'
-    return () => {
-      document.body.style.overflow = ''
-    }
+    if (done) return
+    lock()
+    return unlock
   }, [done])
 
   if (done) return null
@@ -63,6 +63,7 @@ export default function Preloader() {
   return (
     <div
       ref={rootRef}
+      data-preloader
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-void"
     >
       <span className="display text-[14vw] leading-none">NOIR</span>

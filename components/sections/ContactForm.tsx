@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { validateContact, type ContactInput } from '@/lib/contact-validation'
-import { DUR, EASE, prefersReducedMotion, stagger } from '@/lib/motion'
+import { DUR, EASE, EASE_CSS, prefersReducedMotion, stagger } from '@/lib/motion'
 
 type Status = 'idle' | 'submitting'
 
@@ -14,7 +14,7 @@ const EMPTY_VALUES: ContactInput = { name: '', email: '', subject: 'General', me
 function transitionStyle(reduced: boolean) {
   return {
     transitionDuration: reduced ? '0s' : `${DUR.fast}s`,
-    transitionTimingFunction: EASE.smooth,
+    transitionTimingFunction: EASE_CSS.smooth,
   }
 }
 

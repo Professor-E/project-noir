@@ -92,6 +92,21 @@ export const PRODUCTS: Product[] = [
   },
 ]
 
+/**
+ * The roast slider's five stops, in order, mapped to the SKUs that sit at each
+ * one. Six products across five roast levels means one stop holds two: a plain
+ * `PRODUCTS.find(p => p.roast === n)` would return only the first and make the
+ * second SKU unreachable from the slider entirely. Stops that hold more than
+ * one slug get a secondary picker in the UI.
+ */
+export const ROAST_STOPS: Record<Product['roast'], string[]> = {
+  1: ['aurora'],
+  2: ['meridian'],
+  3: ['ember', 'atlas'],
+  4: ['obsidian'],
+  5: ['midnight-oil'],
+}
+
 export function getProduct(slug: string): Product | undefined {
   return PRODUCTS.find((p) => p.slug === slug)
 }

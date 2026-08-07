@@ -8,6 +8,7 @@ import { formatUSD, lineKey, linePrice, subtotal, type CartLine } from '@/lib/ca
 import { cartCount, useCart } from '@/lib/cart-store'
 import { DUR, EASE, prefersReducedMotion } from '@/lib/motion'
 import { getProduct } from '@/lib/products'
+import { lock, unlock } from '@/lib/scroll-lock'
 
 const MAX_QTY = 9
 
@@ -209,10 +210,8 @@ export default function CartDrawer() {
 
   useEffect(() => {
     if (!isOpen) return
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = ''
-    }
+    lock()
+    return unlock
   }, [isOpen])
 
   const setRowRef = (key: string) => (el: HTMLLIElement | null) => {

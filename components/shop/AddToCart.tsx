@@ -10,7 +10,7 @@ import {
   type Weight,
 } from '@/lib/cart-math'
 import { useCart } from '@/lib/cart-store'
-import { DUR, EASE, prefersReducedMotion } from '@/lib/motion'
+import { DUR, EASE, EASE_CSS, prefersReducedMotion } from '@/lib/motion'
 import type { Product } from '@/lib/products'
 import { useMagnetic } from '@/lib/use-magnetic'
 
@@ -145,7 +145,10 @@ export default function AddToCart({ product }: { product: Product }) {
   const [subscribe, setSubscribe] = useState(false)
   const [qty, setQty] = useState(1)
   const [reduced, setReduced] = useState(false)
-  const [confirmed, setConfirmed] = useState(false)
+  // A counter, not a boolean: a second add while the first confirmation is
+  // still showing has to change the live region's DOM or a screen reader has
+  // nothing new to announce.
+  const [addedCount, setAddedCount] = useState(0)
 
   const add = useCart((state) => state.add)
   const buttonRef = useMagnetic<HTMLButtonElement>()
@@ -158,10 +161,10 @@ export default function AddToCart({ product }: { product: Product }) {
   }, [])
 
   useEffect(() => {
-    if (!confirmed) return
-    const timer = window.setTimeout(() => setConfirmed(false), CONFIRM_MS)
+    if (addedCount === 0) return
+    const timer = window.setTimeout(() => setAddedCount(0), CONFIRM_MS)
     return () => window.clearTimeout(timer)
-  }, [confirmed])
+  }, [addedCount])
 
   const line: CartLine = {
     slug: product.slug,
@@ -232,7 +235,7 @@ export default function AddToCart({ product }: { product: Product }) {
                     left: subscribe ? 'calc(100% - 1.25rem)' : '0.25rem',
                     transitionProperty: 'left, background-color',
                     transitionDuration: reduced ? '0s' : `${DUR.fast}s`,
-                    transitionTimingFunction: EASE.smooth,
+                    transitionTimingFunction: EASE_CSS.smooth,
                   }}
                 />
               </span>
@@ -295,7 +298,7 @@ export default function AddToCart({ product }: { product: Product }) {
         data-cursor
         onClick={() => {
           add(line)
-          setConfirmed(true)
+          setAddedCount((n) => n + 1)
         }}
         className="mt-12 inline-flex w-full items-center justify-center gap-4 border border-crema bg-crema px-10 py-5 text-sm uppercase tracking-[0.18em] text-void outline-none transition-colors hover:bg-transparent hover:text-crema focus-visible:ring-1 focus-visible:ring-crema md:w-auto"
         style={{ transitionDuration: reduced ? '0s' : `${DUR.fast}s` }}
@@ -305,8 +308,11 @@ export default function AddToCart({ product }: { product: Product }) {
         <span className="tabular-nums">{formatUSD(total)}</span>
       </button>
 
+      {/* The inner span is keyed on the add counter so every click replaces the
+          node inside the live region — identical text alone would be no DOM
+          change, and nothing would be announced the second time. */}
       <p aria-live="polite" className="eyebrow mt-5 h-4">
-        {confirmed ? `${product.name} added to your cart` : ''}
+        {addedCount > 0 && <span key={addedCount}>{product.name} added to your cart</span>}
       </p>
     </div>
   )

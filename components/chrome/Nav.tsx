@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { cartCount, useCart } from '@/lib/cart-store'
-import { DUR, EASE, prefersReducedMotion, stagger } from '@/lib/motion'
+import { lock, unlock } from '@/lib/scroll-lock'
+import { DUR, EASE_CSS, prefersReducedMotion, stagger } from '@/lib/motion'
 
 const LINKS = [
   { href: '/', label: 'Home' },
@@ -18,7 +19,7 @@ const LINKS = [
 function transitionStyle(reduced: boolean) {
   return {
     transitionDuration: reduced ? '0s' : `${DUR.fast}s`,
-    transitionTimingFunction: EASE.smooth,
+    transitionTimingFunction: EASE_CSS.smooth,
   }
 }
 
@@ -82,10 +83,9 @@ export default function Nav() {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
+    if (!menuOpen) return
+    lock()
+    return unlock
   }, [menuOpen])
 
   const closeMenu = () => setMenuOpen(false)
@@ -174,7 +174,7 @@ export default function Nav() {
           opacity: menuOpen ? 1 : 0,
           transitionProperty: 'opacity',
           transitionDuration: reduced ? '0s' : `${DUR.base}s`,
-          transitionTimingFunction: EASE.smooth,
+          transitionTimingFunction: EASE_CSS.smooth,
         }}
         inert={!menuOpen}
         aria-hidden={!menuOpen}
@@ -185,7 +185,7 @@ export default function Nav() {
             style={{
               transitionProperty: 'opacity, transform',
               transitionDuration: reduced ? '0s' : `${DUR.base}s`,
-              transitionTimingFunction: EASE.smooth,
+              transitionTimingFunction: EASE_CSS.smooth,
               transitionDelay: reduced ? '0s' : `${stagger(i)}s`,
               opacity: menuOpen ? 1 : 0,
               transform: menuOpen ? 'translateY(0)' : 'translateY(12px)',

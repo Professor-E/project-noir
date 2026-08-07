@@ -45,7 +45,7 @@ export default function Reveal({ children, className, delay = 0, y = 40 }: Props
   }, [delay, y])
 
   return (
-    <div ref={ref} className={className} style={{ opacity: 0 }}>
+    <div ref={ref} data-reveal className={className} style={{ opacity: 0 }}>
       {children}
     </div>
   )

@@ -194,7 +194,7 @@ function MethodCard({
 
         <ol ref={stepsRef} className="mt-10 flex flex-col gap-6">
           {method.steps.map((step) => (
-            <li key={step.at} className="flex gap-6" style={{ opacity: 0 }}>
+            <li key={step.at} data-brew-step className="flex gap-6" style={{ opacity: 0 }}>
               <span className="eyebrow w-12 shrink-0 pt-1 tabular-nums text-crema">
                 {step.at}
               </span>
