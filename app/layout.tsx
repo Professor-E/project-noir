@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Instrument_Serif, Inter } from 'next/font/google'
+import Preloader from '@/components/chrome/Preloader'
 import SmoothScroll from '@/components/scroll/SmoothScroll'
 import './globals.css'
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${serif.variable} ${sans.variable}`}>
       <body className="bg-void text-bone">
+        <Preloader />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
