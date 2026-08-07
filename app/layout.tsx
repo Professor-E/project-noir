@@ -6,6 +6,7 @@ import Nav from '@/components/chrome/Nav'
 import Preloader from '@/components/chrome/Preloader'
 import SoundToggle from '@/components/chrome/SoundToggle'
 import SmoothScroll from '@/components/scroll/SmoothScroll'
+import CartDrawer from '@/components/shop/CartDrawer'
 import './globals.css'
 
 const serif = Instrument_Serif({
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Nav />
         <SmoothScroll>{children}</SmoothScroll>
         <Footer />
+        <CartDrawer />
         <SoundToggle />
       </body>
     </html>

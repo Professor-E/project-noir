@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { cartCount, useCart } from '@/lib/cart-store'
 import { DUR, EASE, prefersReducedMotion, stagger } from '@/lib/motion'
 
 const LINKS = [
@@ -57,12 +58,20 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [reduced, setReduced] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  const lines = useCart((state) => state.lines)
+  const toggle = useCart((state) => state.toggle)
+  // The cart is persisted to localStorage, so the count only becomes readable
+  // after mount; before that the badge renders exactly as the server sent it.
+  const count = mounted ? cartCount(lines) : 0
 
   useEffect(() => {
     // One-time client-only capability check (media query); no value to read
     // this from during render, so an effect is correct here.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setReduced(prefersReducedMotion())
+    setMounted(true)
   }, [])
 
   useEffect(() => {
@@ -108,13 +117,21 @@ export default function Nav() {
         <div className="flex items-center justify-self-end gap-4">
           <button
             type="button"
-            aria-label="Open cart"
+            data-cart-button
+            aria-label={count > 0 ? `Open cart, ${count} item${count === 1 ? '' : 's'}` : 'Open cart'}
             data-cursor
-            // Task 7 wires this to useCart().toggle(); inert until then.
-            onClick={() => {}}
-            className="eyebrow border border-bone/20 px-3 py-2 transition-colors hover:border-bone/50"
+            onClick={toggle}
+            className="eyebrow relative border border-bone/20 px-3 py-2 transition-colors hover:border-bone/50"
           >
             Cart
+            {count > 0 && (
+              <span
+                aria-hidden
+                className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-crema px-1 text-[0.625rem] leading-none tracking-normal tabular-nums text-void"
+              >
+                {count}
+              </span>
+            )}
           </button>
 
           <button
