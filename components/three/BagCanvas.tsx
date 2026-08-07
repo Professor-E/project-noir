@@ -100,70 +100,8 @@ export default function BagCanvas({ roast, name, image }: Props) {
     let velocity = 0
     let tilt = 0
 
-    // Web fonts are usually still loading when the label is first painted, so
-    // the display serif would fall back to Georgia. Repaint once they land.
-    if (document.fonts) {
-      document.fonts.ready
-        .then(() => {
-          if (disposed || !label) return
-          label.redraw()
-          dirty = true
-        })
-        .catch(() => {})
-    }
-
-    const resize = () => {
-      const width = mount.clientWidth
-      const height = mount.clientHeight
-      if (!width || !height) return
-      camera.aspect = width / height
-      camera.updateProjectionMatrix()
-      renderer.setSize(width, height)
-      dirty = true
-    }
-    resize()
-
-    const resizeObserver = new ResizeObserver(resize)
-    resizeObserver.observe(mount)
-
-    const onPointerDown = (e: PointerEvent) => {
-      dragging = true
-      lastX = e.clientX
-      lastY = e.clientY
-      velocity = 0
-      canvas.style.cursor = 'grabbing'
-      canvas.setPointerCapture(e.pointerId)
-      dirty = true
-      // No-op unless the reduced-motion branch above has parked the loop.
-      start()
-    }
-
-    const onPointerMove = (e: PointerEvent) => {
-      if (!dragging) return
-      const dx = e.clientX - lastX
-      const dy = e.clientY - lastY
-      lastX = e.clientX
-      lastY = e.clientY
-      // The last frame's delta becomes the throw velocity the moment the
-      // pointer is released.
-      velocity = dx * DRAG_TO_RAD
-      bag.rotation.y += velocity
-      tilt = clamp(tilt + dy * DRAG_TO_RAD, -MAX_TILT, MAX_TILT)
-      dirty = true
-    }
-
-    const endDrag = (e: PointerEvent) => {
-      if (!dragging) return
-      dragging = false
-      canvas.style.cursor = 'grab'
-      if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId)
-    }
-
-    canvas.addEventListener('pointerdown', onPointerDown)
-    canvas.addEventListener('pointermove', onPointerMove)
-    canvas.addEventListener('pointerup', endDrag)
-    canvas.addEventListener('pointercancel', endDrag)
-
+    // Declared ahead of resize() and the fonts.ready callback below, both of
+    // which need to call start() to wake a parked reduced-motion loop.
     let frame: number | null = null
 
     const tick = () => {
@@ -219,6 +157,76 @@ export default function BagCanvas({ roast, name, image }: Props) {
       cancelAnimationFrame(frame)
       frame = null
     }
+
+    // Web fonts are usually still loading when the label is first painted, so
+    // the display serif would fall back to Georgia. Repaint once they land.
+    if (document.fonts) {
+      document.fonts.ready
+        .then(() => {
+          if (disposed || !label) return
+          label.redraw()
+          dirty = true
+          // No-op unless the reduced-motion branch has parked the loop; without
+          // this the swapped-in texture never actually gets painted.
+          start()
+        })
+        .catch(() => {})
+    }
+
+    const resize = () => {
+      const width = mount.clientWidth
+      const height = mount.clientHeight
+      if (!width || !height) return
+      camera.aspect = width / height
+      camera.updateProjectionMatrix()
+      renderer.setSize(width, height)
+      dirty = true
+      // Resizing the drawing buffer discards its contents; under reduced
+      // motion with the loop parked this is the only thing that repaints it.
+      start()
+    }
+    resize()
+
+    const resizeObserver = new ResizeObserver(resize)
+    resizeObserver.observe(mount)
+
+    const onPointerDown = (e: PointerEvent) => {
+      dragging = true
+      lastX = e.clientX
+      lastY = e.clientY
+      velocity = 0
+      canvas.style.cursor = 'grabbing'
+      canvas.setPointerCapture(e.pointerId)
+      dirty = true
+      // No-op unless the reduced-motion branch above has parked the loop.
+      start()
+    }
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!dragging) return
+      const dx = e.clientX - lastX
+      const dy = e.clientY - lastY
+      lastX = e.clientX
+      lastY = e.clientY
+      // The last frame's delta becomes the throw velocity the moment the
+      // pointer is released.
+      velocity = dx * DRAG_TO_RAD
+      bag.rotation.y += velocity
+      tilt = clamp(tilt + dy * DRAG_TO_RAD, -MAX_TILT, MAX_TILT)
+      dirty = true
+    }
+
+    const endDrag = (e: PointerEvent) => {
+      if (!dragging) return
+      dragging = false
+      canvas.style.cursor = 'grab'
+      if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId)
+    }
+
+    canvas.addEventListener('pointerdown', onPointerDown)
+    canvas.addEventListener('pointermove', onPointerMove)
+    canvas.addEventListener('pointerup', endDrag)
+    canvas.addEventListener('pointercancel', endDrag)
 
     // The loop only runs while the canvas is on screen. The observer fires
     // once on registration, so this is also what starts it.
