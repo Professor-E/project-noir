@@ -3,13 +3,9 @@ import ProductCard from '@/components/shop/ProductCard'
 import { stagger } from '@/lib/motion'
 import { PRODUCTS } from '@/lib/products'
 
-// Column rhythm: the middle column rides up and the right column drops, so the
-// six cards read as a hung grid rather than three ruled rows. Exported so the
-// shop index hangs its grid on exactly the same rhythm.
-export function columnOffset(index: number): string {
-  const column = index % 3
-  if (column === 1) return 'md:-mt-12'
-  if (column === 2) return 'md:mt-24'
+// Kept for callers that still import it; cards now sit on one straight grid
+// with no per-column offset.
+export function columnOffset(_index: number): string {
   return ''
 }
 
@@ -26,7 +22,7 @@ export default function Collection() {
           <h2
             id="collection-heading"
             className="display mt-6 max-w-[16ch] text-bone"
-            style={{ fontSize: 'clamp(2.5rem, 7vw, 6rem)' }}
+            style={{ fontSize: 'clamp(2.5rem, 7vw, 6rem)', lineHeight: 1.15 }}
           >
             Six origins, one obsession
           </h2>

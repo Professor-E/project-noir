@@ -26,7 +26,7 @@ export default function KineticType() {
             <h2 className="display" style={{ fontSize: 'clamp(2rem, 7vw, 5rem)' }}>
               {beat.word}
             </h2>
-            <p className="eyebrow mt-2">{beat.sub}</p>
+            <p className="eyebrow mt-2" style={{ color: 'var(--color-bone)' }}>{beat.sub}</p>
           </div>
         ))}
       </div>
@@ -50,7 +50,7 @@ export default function KineticType() {
             <h2 className="display text-center text-[clamp(4rem,18vw,17rem)] tracking-[-0.03em]">
               {beat.word}
             </h2>
-            <p className="eyebrow mt-6 text-center">{beat.sub}</p>
+            <p className="eyebrow mt-6 text-center" style={{ color: 'var(--color-bone)' }}>{beat.sub}</p>
           </div>
         )
       })}

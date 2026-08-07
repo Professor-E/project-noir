@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Instrument_Serif, Inter } from 'next/font/google'
+import { Bodoni_Moda, Inter } from 'next/font/google'
 import Cursor from '@/components/chrome/Cursor'
 import Footer from '@/components/chrome/Footer'
 import Nav from '@/components/chrome/Nav'
@@ -9,10 +9,13 @@ import SmoothScroll from '@/components/scroll/SmoothScroll'
 import CartDrawer from '@/components/shop/CartDrawer'
 import './globals.css'
 
-const serif = Instrument_Serif({
+// Bodoni Moda is variable across 400–900, so `.display` can ask for real weight
+// instead of faking it. Instrument Serif shipped 400 only, and every synthetic
+// bold (text-stroke, font-weight: 700) smeared the glyph edges.
+const serif = Bodoni_Moda({
   subsets: ['latin'],
-  weight: '400',
-  variable: '--font-instrument-serif',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-display-serif',
 })
 const sans = Inter({ subsets: ['latin'], variable: '--font-inter' })
 

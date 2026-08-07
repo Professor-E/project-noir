@@ -47,7 +47,7 @@ function cssFont(variable: string, fallback: string, size: number): string {
 }
 
 const displayFont = (size: number) =>
-  cssFont('--font-instrument-serif', 'Georgia, "Times New Roman", serif', size)
+  cssFont('--font-display-serif', 'Georgia, "Times New Roman", serif', size)
 
 const sansFont = (size: number) =>
   cssFont('--font-inter', 'Helvetica, Arial, sans-serif', size)

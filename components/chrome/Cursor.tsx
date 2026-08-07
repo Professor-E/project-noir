@@ -37,11 +37,17 @@ export default function Cursor() {
 
   if (!enabled) return null
 
+  // No `mix-blend-difference` on the dot, on purpose. A fixed, blended element
+  // has the whole scrolling document as its backdrop, so Chrome cannot just
+  // translate the cached scroll layer — it repaints the page on the main thread
+  // every frame. Under Lenis (which lands on fractional pixel offsets each rAF
+  // tick) that re-rasterises every glyph at a new subpixel phase, which reads as
+  // text shimmering / redrawing itself while you scroll.
   return (
     <div
       ref={dotRef}
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[200] h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-crema mix-blend-difference"
+      className="pointer-events-none fixed left-0 top-0 z-[200] h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-crema"
     />
   )
 }
