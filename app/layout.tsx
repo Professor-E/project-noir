@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Instrument_Serif, Inter } from 'next/font/google'
+import SmoothScroll from '@/components/scroll/SmoothScroll'
 import './globals.css'
 
 const serif = Instrument_Serif({
@@ -18,7 +19,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${serif.variable} ${sans.variable}`}>
-      <body className="bg-void text-bone">{children}</body>
+      <body className="bg-void text-bone">
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   )
 }
